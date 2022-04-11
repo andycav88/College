@@ -1,4 +1,4 @@
-<!-- Si la sesion esta activa vamos a homepage. -->
+<!-- Si la sesion esta activa vamos a homepage . WEB-->
 <?php
 session_start();
 if (isset($_SESSION['active']))
