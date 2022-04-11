@@ -1,3 +1,4 @@
+<!-- Si la sesion esta activa vamos a homepage. -->
 <?php
 session_start();
 if (isset($_SESSION['active']))
@@ -5,7 +6,6 @@ if (isset($_SESSION['active']))
         header("Location:http://localhost/college/views/homepage.php");
     }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
