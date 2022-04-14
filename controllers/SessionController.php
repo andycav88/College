@@ -65,7 +65,7 @@ class sessionController
         //  unset($_SESSION["nombre_usuario"]);
         //  unset($_SESSION["nombre_cliente"]);
         session_destroy();
-        header("Location:http://localhost/college-git/");
+        header("Location:http://localhost/college/");
         exit;
     }
 }

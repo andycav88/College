@@ -1,5 +1,3 @@
-<!-- Update Listo -->
-
 <?php $title = "Dashboard - Caso de Estudio" ?>
 <?php include "includes/header.php" ?>
 
@@ -85,7 +83,7 @@
         </div>
     </div>
 </div>
-<!-- <script src="http://localhost/college-git/dist/js/simple-datatables.js"></script> -->
+<!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
 <script>
     $(function() {
         var myModal = new bootstrap.Modal(document.getElementById('ProfeModal'))
@@ -120,7 +118,7 @@
 
             $.ajax({
                 type: "Post",
-                url: "http://localhost/college-git/professor/find",
+                url: "http://localhost/college/professor/find",
                 data: {
                     id: idUpdate,
                 },
@@ -146,7 +144,7 @@
             //en el router.php
             $.ajax({
                 type: "Post",
-                url: "http://localhost/college-git/professor/delete",
+                url: "http://localhost/college/professor/delete",
                 data: {
                     id: idUpdate,
                 },
@@ -202,7 +200,6 @@
                     }
                 }
             }
-
             if (option != "")
                 return;
 
@@ -223,7 +220,7 @@
             $.ajax({
                 //La url del archivo php
                 type: "POST",
-                url: "http://localhost/college-git/professor/create",
+                url: "http://localhost/college/professor/create",
                 data: {
                     name: name,
                     lastname: lastname,

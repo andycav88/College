@@ -1,9 +1,10 @@
+<!-- Ahora SI -->
 <!-- Si la sesion esta activa vamos a homepage . WEB-->
 <?php
 session_start();
 if (isset($_SESSION['active']))
     if ($_SESSION['active']) {
-        header("Location:http://localhost/college-git/views/homepage.php");
+        header("Location:http://localhost/college/views/homepage.php");
     }
 ?>
 
@@ -17,17 +18,17 @@ if (isset($_SESSION['active']))
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- <title>Dashboard - SB Admin</title> -->
-    <title>college-git Login</title>
-    <link href="http://localhost/college-git/dist/css/style.online.css" rel="stylesheet" />
-    <link href="http://localhost/college-git/dist/css/styles.css" rel="stylesheet" />
-    <script src="http://localhost/college-git/dist/js/all.js"></script>
+    <title>College Login</title>
+    <link href="http://localhost/college/dist/css/style.online.css" rel="stylesheet" />
+    <link href="http://localhost/college/dist/css/styles.css" rel="stylesheet" />
+    <script src="http://localhost/college/dist/js/all.js"></script>
 
-    <script src="http://localhost/college-git/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="http://localhost/college-git/dist/js/scripts.js"></script>
-    <script src="http://localhost/college-git/dist/js/jquery-3.6.0.js"></script>
-    <script src="http://localhost/college-git/dist/js/Chart.min.js"></script>
-    <!-- <script src="http://localhost/college-git/dist/js/simple-datatables.js"></script> -->
-    <script src="http://localhost/college-git/dist/js/datatables-simple-demo.js"></script>
+    <script src="http://localhost/college/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="http://localhost/college/dist/js/scripts.js"></script>
+    <script src="http://localhost/college/dist/js/jquery-3.6.0.js"></script>
+    <script src="http://localhost/college/dist/js/Chart.min.js"></script>
+    <!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
+    <script src="http://localhost/college/dist/js/datatables-simple-demo.js"></script>
 </head>
 
 <body class="bg-primary">
@@ -86,7 +87,7 @@ if (isset($_SESSION['active']))
             </footer>
         </div>
     </div>
-    <!-- <script src="http://localhost/college-git/dist/js/jquery-3.6.0.js"></script> -->
+    <!-- <script src="http://localhost/college/dist/js/jquery-3.6.0.js"></script> -->
     <script>
         $(function() {
             $('.btn-primary').click(function() {
@@ -95,7 +96,7 @@ if (isset($_SESSION['active']))
 
                 $.ajax({
                     type: "POST",
-                    url: `http://localhost/college-git/session/login`,
+                    url: `http://localhost/college/session/login`,
                     data: {
                         email: email,
                         pass: pass

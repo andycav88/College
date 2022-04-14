@@ -146,7 +146,7 @@
             //La url del archivo php
 
             type: "POST",
-            url: `http://localhost/college-git/student/${id=="" ? 'create' : 'update'}`,
+            url: `http://localhost/college/student/${id=="" ? 'create' : 'update'}`,
             data: {
                 name: name,
                 lastname: lastname,

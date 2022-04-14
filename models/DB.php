@@ -5,7 +5,7 @@ class DB extends PDO
     {
         $dbuser = "sa";
         $userpass = "sqlserver";
-        $dsn = "sqlsrv:Server=DESKTOP-R12HDMQ;Database=college-gitdb";
+        $dsn = "sqlsrv:Server=DESKTOP-R12HDMQ;Database=collegedb";
         parent::__construct($dsn, $dbuser, $userpass);
     }
 }

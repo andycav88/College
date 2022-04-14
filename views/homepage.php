@@ -1,12 +1,12 @@
 <?php
 $title = "Dashboard - Caso de Estudio";
 $root = $_SERVER['DOCUMENT_ROOT'];
-include $root . "/college-git/includes/header.php"
+include $root . "/college/includes/header.php"
 ?>
 
 <body class="sb-nav-fixed">
-    <?php include $root . "/college-git/includes/topnavbar.php" ?>
-    <?php include $root . "/college-git/includes/sidenavbar.php" ?>
+    <?php include $root . "/college/includes/topnavbar.php" ?>
+    <?php include $root . "/college/includes/sidenavbar.php" ?>
     <div class="d-flex bd-highlight" id="layoutSidenav_content">
         <main>
 
@@ -16,7 +16,7 @@ include $root . "/college-git/includes/header.php"
 
         </main>
 
-        <?php include $root . "/college-git/includes/footer.php" ?>
+        <?php include $root . "/college/includes/footer.php" ?>
     </div>
     </div>
 
