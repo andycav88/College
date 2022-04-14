@@ -68,9 +68,9 @@
         </footer>
     </div>
     </div>
-    <script src="http://localhost/college/assets/demo/chart-area-demo.js"></script>
-    <script src="http://localhost/college/assets/demo/chart-bar-demo.js"></script>
-    <script src="http://localhost/college/assets/demo/chart-pie-demo.js"></script>
+    <script src="http://localhost/college-git/assets/demo/chart-area-demo.js"></script>
+    <script src="http://localhost/college-git/assets/demo/chart-bar-demo.js"></script>
+    <script src="http://localhost/college-git/assets/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>
