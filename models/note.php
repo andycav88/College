@@ -8,7 +8,7 @@ class Note extends DB
     public $class_id;
 
 
-  /*  public function __construct($note, $trimester, $student_id, $class_id)
+    /*  public function __construct($note, $trimester, $student_id, $class_id)
     {
 
         $this->note = $note;

@@ -8,8 +8,16 @@ class Student extends DB
     public $password;
     public $id_level;
 
-
-  /*  public function __construct($name, $lastname, $email, $password, $id_level)
+    public static function all()
+    {
+        //SQL SERVER
+        $conn = new DB();
+        $query = "SELECT * FROM student";
+        $data = $conn->query($query);
+        $records = $data->fetchAll(PDO::FETCH_CLASS, Student::class);
+        return $records;
+    }
+    /*  public function __construct($name, $lastname, $email, $password, $id_level)
     {
 
         $this->name = $name;
@@ -79,7 +87,6 @@ class Student extends DB
             $prepare->bindParam(":id_level", $this->id_level, PDO::PARAM_STR);
             $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
             $prepare->execute();
-           
         }
     }
 

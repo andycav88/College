@@ -7,10 +7,8 @@ class Schedule extends DB
     public $end;
     public $id_class;
 
-
     public function __construct($day, $star, $end, $id_class)
     {
-
         $this->day = $day;
         $this->star = $star;
         $this->end = $end;
@@ -34,7 +32,6 @@ class Schedule extends DB
 
     public function find()
     {
-
         //SQL SERVER      
         $prepare = $this->prepare("SELECT FROM schedule WHERE id=:id");
         $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
@@ -45,7 +42,6 @@ class Schedule extends DB
 
     public function findById($id)
     {
-
         //SQL SERVER      
         $prepare = $this->prepare("SELECT FROM schedule WHERE id=:id");
         $prepare->bindParam(":id", $this->$id, PDO::PARAM_STR);
@@ -56,7 +52,6 @@ class Schedule extends DB
 
     public function save()
     {
-
         if (empty($this->id)) {
 
             $prepare = $this->prepare("INSERT INTO schedule(day,star,end,id_class) OUTPUT INSERTED.id VALUES (:day,:star,:end,:id_clas)");

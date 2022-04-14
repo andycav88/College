@@ -48,7 +48,7 @@ class Professor extends DB
     {
 
         //SQL SERVER      
-        $prepare = $this->prepare("SELECT FROM professor WHERE id=:id");
+        $prepare = $this->prepare("SELECT * FROM professor WHERE id=:id");
         $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
         $prepare->execute();
         $records = $prepare->fetchObject(Professor::class);
@@ -57,12 +57,10 @@ class Professor extends DB
 
     public function findById($id)
     {
-
         //SQL SERVER      
-        $prepare = $this->prepare("SELECT FROM professor WHERE id=:id");
-        $prepare->bindParam(":id", $this->$id, PDO::PARAM_STR);
+        $prepare = $this->prepare("SELECT * FROM professor WHERE id=$id");
         $prepare->execute();
-        $records = $prepare->fetchAll(PDO::FETCH_CLASS, Professor::class);
+        $records =  $prepare->fetchObject(Professor::class);
         return $records;
     }
 

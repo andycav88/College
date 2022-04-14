@@ -1,15 +1,33 @@
     <!-- Panel Lateral  -->
+
+    <?php echo "Hola" ?>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
+                        <!-- Aqui verificamos si el que esta logueado es el Admin y mostramos botones -->
+                        <?php if ($_SESSION["user"] == "admin") { ?>
+                            <div class="sb-sidenav-menu-heading">Manage</div>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-person-chalkboard"></i></div>
+                                Professors
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                                Students
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></i></div>
+                                Class
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div>
+                                Level
+                            </a>
+                        <?php } ?>
+                        <div class="sb-sidenav-menu-heading">Professors</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Layouts
@@ -52,7 +70,7 @@
                                 </div>
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
+                        <div class="sb-sidenav-menu-heading">Students</div>
                         <a class="nav-link" href="views/charts.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Charts
@@ -64,8 +82,7 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    <div class="small">Logged in as: <?php echo $_SESSION["name"] ?></div>
                 </div>
             </nav>
         </div>

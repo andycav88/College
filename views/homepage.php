@@ -7,7 +7,7 @@ include $root . "/college/includes/header.php"
 <body class="sb-nav-fixed">
     <?php include $root . "/college/includes/topnavbar.php" ?>
     <?php include $root . "/college/includes/sidenavbar.php" ?>
-    <div id="layoutSidenav_content">
+    <div class="d-flex bd-highlight" id="layoutSidenav_content">
         <main>
 
 

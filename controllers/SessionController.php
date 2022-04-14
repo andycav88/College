@@ -40,8 +40,10 @@ class sessionController
                     //Aquí creamos sesiones
                     $_SESSION['active'] = true;
                     //$_SESSION['cedula'] = $registro['cedula'];
-                    //$_SESSION['nombre'] = $registro['nombre'];
+                    $_SESSION['user'] = "admin";
                     $_SESSION['email'] = $registro['email'];
+                    $_SESSION['name'] = "Admin";
+
 
                     //Despues de crear las sesiones
                     //Redirigir al panel.php

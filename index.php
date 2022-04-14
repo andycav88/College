@@ -103,12 +103,9 @@ if (isset($_SESSION['active']))
                     success: function(returnData) {
                         let results = JSON.parse(returnData);
                         if (results == "true") {
-                            console.log(document.location.hostname);
-                            console.log(location.protocol);
-                            console.log(location.host);
                             window.location = "session/index";
                         } else {
-                            alert("pingaaaa");
+                            alert("Wrong email address or password.");
                         }
 
 
