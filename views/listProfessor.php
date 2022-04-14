@@ -83,7 +83,7 @@
         </div>
     </div>
 </div>
-<!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
+<!-- <script src="http://localhost/college-git/dist/js/simple-datatables.js"></script> -->
 <script>
     $(function() {
         var myModal = new bootstrap.Modal(document.getElementById('ProfeModal'))
@@ -118,7 +118,7 @@
 
             $.ajax({
                 type: "Post",
-                url: "http://localhost/college/professor/find",
+                url: "http://localhost/college-git/professor/find",
                 data: {
                     id: idUpdate,
                 },
@@ -144,7 +144,7 @@
             //en el router.php
             $.ajax({
                 type: "Post",
-                url: "http://localhost/college/professor/delete",
+                url: "http://localhost/college-git/professor/delete",
                 data: {
                     id: idUpdate,
                 },
@@ -221,7 +221,7 @@
             $.ajax({
                 //La url del archivo php
                 type: "POST",
-                url: "http://localhost/college/professor/create",
+                url: "http://localhost/college-git/professor/create",
                 data: {
                     name: name,
                     lastname: lastname,

@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!$_SESSION['active']) {
-    $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college/";
-    header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
+    $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college-git/";
+    header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college-git/");
 }
 ?>
 
@@ -20,14 +20,14 @@ if (!$_SESSION['active']) {
     <meta name="author" content="" />
     <!-- <title>Dashboard - SB Admin</title> -->
     <title><?php echo $title ?></title>
-    <link href="http://localhost/college/dist/css/style.online.css" rel="stylesheet" />
-    <link href="http://localhost/college/dist/css/styles.css" rel="stylesheet" />
-    <script src="http://localhost/college/dist/js/all.js"></script>
+    <link href="http://localhost/college-git/dist/css/style.online.css" rel="stylesheet" />
+    <link href="http://localhost/college-git/dist/css/styles.css" rel="stylesheet" />
+    <script src="http://localhost/college-git/dist/js/all.js"></script>
 
-    <script src="http://localhost/college/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="http://localhost/college/dist/js/scripts.js"></script>
-    <script src="http://localhost/college/dist/js/jquery-3.6.0.js"></script>
-    <script src="http://localhost/college/dist/js/Chart.min.js"></script>
-    <!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
-    <script src="http://localhost/college/dist/js/datatables-simple-demo.js"></script>
+    <script src="http://localhost/college-git/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="http://localhost/college-git/dist/js/scripts.js"></script>
+    <script src="http://localhost/college-git/dist/js/jquery-3.6.0.js"></script>
+    <script src="http://localhost/college-git/dist/js/Chart.min.js"></script>
+    <!-- <script src="http://localhost/college-git/dist/js/simple-datatables.js"></script> -->
+    <script src="http://localhost/college-git/dist/js/datatables-simple-demo.js"></script>
 </head>
