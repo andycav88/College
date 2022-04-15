@@ -9,7 +9,7 @@
         <main>
 
             <div class="container table-responsive">
-                <h1 class="mt-5 text-center"> Professors </h1>
+                <h1 class="text-center"> Professors </h1>
                 <button class="btn btn-success" id="btnAdd">Add +</button>
                 <table class="table  table-striped" id='table'>
                     <thead>
