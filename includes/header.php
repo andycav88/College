@@ -1,13 +1,12 @@
 <?php
+
 session_start();
-if (!$_SESSION['active']) {
-    $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college/";
-    header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
-}
+if ($title != "Password Reset" && $title != "Register")
+    if (!$_SESSION['active']) {
+        $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college/";
+        header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
+    }
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">

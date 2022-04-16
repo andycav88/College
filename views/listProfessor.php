@@ -120,7 +120,7 @@
                 type: "Post",
                 url: "http://localhost/college/professor/find",
                 data: {
-                    id: idUpdate,
+                    id: idUpdate
                 },
                 success: function(returnData) {
                     let results = JSON.parse(returnData);
