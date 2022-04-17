@@ -1,5 +1,7 @@
-<?php $title = "Dashboard - Caso de Estudio" ?>
-<?php include "includes/header.php" ?>
+<script>
+    document.title = "College - Professor";
+</script>
+<?php include_once "includes/header.php" ?>
 
 
 <body class="sb-nav-fixed">
@@ -83,7 +85,7 @@
         </div>
     </div>
 </div>
-<!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
+
 <script>
     $(function() {
         var myModal = new bootstrap.Modal(document.getElementById('ProfeModal'))

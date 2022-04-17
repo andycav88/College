@@ -1,4 +1,6 @@
-<?php $title = "Dashboard - Caso de Estudio" ?>
+<script>
+    document.title = "College - Student";
+</script>
 <?php include "includes/header.php" ?>
 
 

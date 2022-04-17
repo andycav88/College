@@ -1,5 +1,9 @@
-<?php $title = "Password Reset" ?>
-<?php include "includes/header.php" ?>
+<script>
+    document.title = "Password Reset";
+</script>
+<?php
+include "includes/header.php";
+?>
 
 <body class="bg-primary">
     <div id="layoutAuthentication">

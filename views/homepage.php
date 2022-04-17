@@ -1,6 +1,7 @@
+<script>
+    document.title = "College Homepage";
+</script>
 <?php
-
-$title = "Dashboard - Caso de Estudio";
 $root = $_SERVER['DOCUMENT_ROOT'];
 include $root . "/college/includes/header.php"
 ?>

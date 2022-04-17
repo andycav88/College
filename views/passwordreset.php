@@ -1,4 +1,6 @@
-<?php $title = "Password Reset" ?>
+<script>
+    document.title = "Password Reset";
+</script>
 <?php include "includes/header.php" ?>
 
 <body class="bg-primary">
@@ -38,11 +40,9 @@
                                             <a class="small" href="index">Return to login</a>
                                             <a class="btn btn-primary" id="btnSetPass">Set Password</a>
                                         </div>
-
                                 </div>
                             </div>
                         </div>
-
                         </form>
                     </div>
                     <div class="card-footer text-center py-3">
