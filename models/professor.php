@@ -19,6 +19,33 @@ class Professor extends DB
         $records = $data->fetchAll(PDO::FETCH_CLASS, Professor::class);
         return $records;
     }
+
+    public static function limite($nameP,$emailP,$newstart ,$end)
+    {
+      if( $newstart != '' && $end != ''){
+        $query = "SELECT * FROM professor WHERE name LIKE '%$nameP%' AND email LIKE '%$emailP%' ORDER BY id 
+        OFFSET $newstart ROWS FETCH NEXT $end ROWS ONLY;";
+        }
+         else{
+        $query = "SELECT * FROM professor";
+         }
+        $conn = new DB();
+        $data = $conn->query($query);
+        $records = $data->fetchAll(PDO::FETCH_CLASS, Professor::class);
+        return $records;
+    }
+
+    public static function allValor($nameP,$emailP)
+    {
+        $query = "SELECT * FROM professor WHERE name LIKE '%$nameP%' AND email LIKE '%$emailP%' ORDER BY id;";
+        $conn = new DB();
+        $data = $conn->query($query);
+        $records = $data->fetchAll(PDO::FETCH_CLASS, Professor::class);
+        return $records;
+        
+    }
+
+
     // public function __construct($specialist, $name, $lastname, $email, $password)
     // {
 
@@ -77,7 +104,8 @@ class Professor extends DB
             $prepare->bindParam(":password", $this->password, PDO::PARAM_STR);
             $prepare->execute();
             $result = $prepare->fetch(PDO::FETCH_ASSOC);
-            return $result["id"];
+            $id = $result['id'];
+            return $id;
         } else {
 
             $prepare = $this->prepare("UPDATE professor SET specialist=:specialist,name=:name, lastname=:lastname, email=:email , password=:password WHERE id=:id");
@@ -88,7 +116,7 @@ class Professor extends DB
             $prepare->bindParam(":password", $this->password, PDO::PARAM_STR);
             $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
             $prepare->execute();
-        }
+                   }
     }
 
 
