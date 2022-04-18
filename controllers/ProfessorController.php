@@ -2,14 +2,18 @@
 
 class ProfessorController
 {
-     public function index(){
-        
-        view("listProfessor","");
+   public function index()
+    {
+        session_start();
+        if (!$_SESSION['active']) {
+            header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
+            return;
+        }
+        $professors = Professor::all();
+        view("listProfessor", $professors);
 
-
-     }
-
-    public function pagination()
+    }
+  public function pagination()
     {   
         $start = $_POST['start'];
         $end = $_POST['end'];
@@ -37,7 +41,7 @@ class ProfessorController
         $results = $professor->find();
         echo json_encode($results);
 
-    }
+ 
 
     public function create()
     {

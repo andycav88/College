@@ -41,30 +41,37 @@ if (isset($_SESSION['active']))
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
+
                                 </div>
+
                                 <div class="card-body">
+                                    <div class="alert alert-danger text-center" role="alert" style="display: none">
+                                        <p class="fw-bold">Wrong Credentials </p>
+                                        Invalid username or password
+                                    </div>
                                     <form>
                                         <div class="form-floating mb-3">
                                             <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" />
-                                            <label for="inputEmail">Email address</label>
+                                            <label id="inputEmaillabel" for="inputEmail">Email address</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
-                                            <label for="inputPassword">Password</label>
+                                            <label id="inputPasswordlabel" for="inputPassword">Password</label>
                                         </div>
-                                        <div class="form-check mb-3">
+                                        <!-- <div class="form-check mb-3">
                                             <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
                                             <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                                        </div>
+                                        </div> -->
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <a class="small" href="password.php">Forgot Password?</a>
+                                            <a class="small" href="session/password">Forgot Password?</a>
                                             <!-- <button id="loginbtn" class="btn btn-primary d-block w-100"><i class="fas fa-user"></i> Login</button> -->
                                             <a class="btn btn-primary">Login</a>
                                         </div>
+
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.php">Need an account? Sign up!</a></div>
+                                    <div class="small"><a href="session/register">Need an account? Sign up!</a></div>
                                 </div>
                             </div>
                         </div>
@@ -90,31 +97,28 @@ if (isset($_SESSION['active']))
     <!-- <script src="http://localhost/college/dist/js/jquery-3.6.0.js"></script> -->
     <script>
         $(function() {
+
             $('.btn-primary').click(function() {
+
                 var email = $('#inputEmail').val();
                 var pass = $('#inputPassword').val();
 
                 $.ajax({
                     type: "POST",
-                    url: `http://localhost/college/session/login`,
+                    url: 'http://localhost/college/session/login',
                     data: {
                         email: email,
                         pass: pass
                     },
                     success: function(returnData) {
-                        let results = JSON.parse(returnData);
-                        if (results == "true") {
+                        let result = JSON.parse(returnData);
+                        if (result == "true") {
                             window.location = "session/index";
                         } else {
-                            alert("Wrong email address or password.");
+                            $(".alert").css('display', 'block');
                         }
-
-
-
                     }
                 });
-
-
             });
         });
     </script>

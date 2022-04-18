@@ -5,6 +5,11 @@ class StudentController
 
     public function index()
     { {
+            session_start();
+            if (!$_SESSION['active']) {
+                header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
+                return;
+            }
             $student = Student::all();
             view("listStudent", $student);
         }
@@ -63,5 +68,21 @@ class StudentController
 
         //  }
 
+    }
+    //PAGINADO
+    public function pagstudent()
+    {
+        $jsondata = array();
+
+        if ($_POST['param1'] == "cuantos") {
+
+            $jsondata = Student::countStudents();
+        } elseif ($_POST["param1"] == "dame") {
+            $limit = $_POST['limit'];
+            $offset = $_POST['offset'];
+            $jsondata = Student::getByRange($offset, $limit);
+        }
+        echo json_encode($jsondata);
+        exit();
     }
 }

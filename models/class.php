@@ -7,7 +7,7 @@ class class1 extends DB
     public $id_level;
 
 
-  /*  public function __construct($name, $id_professor, $id_level)
+    /*  public function __construct($name, $id_professor, $id_level)
     {
 
         $this->name = $name;

@@ -1,13 +1,21 @@
-<?php $title = "Dashboard - Caso de Estudio" ?>
-<?php include "includes/header.php" ?>
+<!DOCTYPE html>
+
+
+<script>
+    document.title = "College - Professor";
+</script>
+<?php include_once "includes/header.php" ?>
+
+<!DOCTYPE html>
 
 <body class="sb-nav-fixed" onload="pagination('%','%',1,5);">
+
     <?php include "includes/topnavbar.php" ?>
     <?php include "includes/sidenavbar.php" ?>
     <div id="layoutSidenav_content">
         <main>
             <div class="container table-responsive">
-                <form class="row g-3">
+                  <form class="row g-3">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id='findname' onkeyup="pagination('%','%',1,'');"   placeholder="Username" aria-label="Username">
                         <span class="input-group-text">@</span>
@@ -24,7 +32,6 @@
             </div>
             <div class="container table-responsive">
                 <h1 class="text-center"> Professors </h1>
-
                 <button class="btn btn-success" id="btnAdd">Add +</button>
                 <table class="table  table-striped" id='table'>
                     <thead>
@@ -97,7 +104,52 @@
         </div>
     </div>
 </div>
-<!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
+
+
+<script>
+    $(function() {
+        var myModal = new bootstrap.Modal(document.getElementById('ProfeModal'))
+        let idUpdate = "";
+
+
+        // console.log('object :>> ', textFields);
+        let limpiarCampos = function() {
+            $('#nameProfe').val("");
+            $('#lastProfe').val("");
+            $('#speciaProfe').val("");
+            $('#emailProfe').val("");
+            $('#passProfe').val("");
+            $('#labelN').css('color', 'black');
+            $('#labelL').css('color', 'black');
+            $('#labelP').css('color', 'black');
+            $('#labelS').css('color', 'black');
+            $('#labelE').css('color', 'black');
+        };
+
+
+        let editarTarea = function() {
+
+            //.dataset obtiene el valor de la etiqueta data-... del boton editar
+            // idUpdate = event.target.parentNode.parentNode.dataset.id;
+            idUpdate = event.target.parentNode.parentNode.dataset.id;
+            $("#modalLabel").html("Update Professor");
+            limpiarCampos();
+            //Abajo solo paso la url pq solo quiero buscar la tarea por el id
+            //por default se ejecuta po el GET, no paso variables pq ya eso se configuro
+            //en el router.php
+
+            $.ajax({
+                type: "Post",
+                url: "http://localhost/college/professor/find",
+                data: {
+                    id: idUpdate
+                },
+                success: function(returnData) {
+                    let results = JSON.parse(returnData);
+                    $('#nameProfe').val(results.name);
+                    $('#lastProfe').val(results.lastname);
+                    $('#speciaProfe').val(results.specialist);
+                    $('#emailProfe').val(results.email);
 
 
 <script>
@@ -169,10 +221,36 @@
               </li>`;
                 }
 
+
                 ul.setAttribute('class', 'pagination');
                 for (let i = 1; i <= numLink; i++) {
                     if (start == i) {
                         ul.innerHTML += `<li class='page-item active' id= "link"><a class='page-link' href='javascript:void(0)'>${i}</li>`;
+
+            });
+            myModal.show();
+        };
+
+        let deleteProfesor = function() {
+            //.dataset obtiene el valor de la etiqueta data-... del boton editar
+            idUpdate = event.target.parentNode.parentNode.dataset.id;
+            //$("#modalLabel").html("Delete Professor");
+            // limpiarCampos();
+            //Abajo solo paso la url pq solo quiero buscar la tarea por el id
+            //por default se ejecuta po el GET, no paso variables pq ya eso se configuro
+            //en el router.php
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/college/professor/delete",
+                data: {
+                    id: idUpdate,
+                },
+                success: function(returnData) {
+                    let results = JSON.parse(returnData);
+                    console.log(results);
+                    if (results) {
+                        $(`tr[data-id=${idUpdate}]`).remove();
+
                     } else {
                         ul.innerHTML += `<li class='page-item'><a class='page-link' href='javascript:void(0)' onclick="pagination('${nameP}','${emailP}',${i},${end})" >${i}</li>`;
 

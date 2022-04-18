@@ -1,5 +1,5 @@
-<?php $title = "Register - Caso de Estudio" ?>
-<?php include "../includes/header.php" ?>
+<?php $title = "Register" ?>
+<?php include "includes/header.php" ?>
 
 <body class="bg-primary">
     <div id="layoutAuthentication">
