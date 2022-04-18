@@ -1,5 +1,5 @@
 <?php
-class Classe extends DB
+class class1 extends DB
 {
     public $id;
     public $name;
@@ -30,14 +30,40 @@ class Classe extends DB
         return $this;
     }
 
+    public static function limite($nameC,$newstart ,$end)
+    {
+      if( $newstart != '' && $end != ''){
+        $query = "SELECT * FROM class WHERE name LIKE '%$nameC%' ORDER BY id 
+        OFFSET $newstart ROWS FETCH NEXT $end ROWS ONLY;";
+        }
+         else{
+        $query = "SELECT * FROM class";
+         }
+        $conn = new DB();
+        $data = $conn->query($query);
+        $records = $data->fetchAll(PDO::FETCH_CLASS, class1::class);
+        return $records;
+    }
+
+    public static function allValor($nameC)
+    {
+        $query = "SELECT * FROM class WHERE name LIKE '%$nameC%' ORDER BY id;";
+        $conn = new DB();
+        $data = $conn->query($query);
+        $records = $data->fetchAll(PDO::FETCH_CLASS, class1::class);
+        return $records;
+        
+    }
+
+
     public function find()
     {
 
         //SQL SERVER      
-        $prepare = $this->prepare("SELECT FROM class WHERE id=:id");
+        $prepare = $this->prepare("SELECT * FROM class WHERE id=:id");
         $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
         $prepare->execute();
-        $records = $prepare->fetchObject(Classe::class);
+        $records = $prepare->fetchObject(class1::class);
         return $records;
     }
 
@@ -45,10 +71,10 @@ class Classe extends DB
     {
 
         //SQL SERVER      
-        $prepare = $this->prepare("SELECT FROM class WHERE id=:id");
+        $prepare = $this->prepare("SELECT * FROM class WHERE id=:id");
         $prepare->bindParam(":id", $this->$id, PDO::PARAM_STR);
         $prepare->execute();
-        $records = $prepare->fetchAll(PDO::FETCH_CLASS, Classe::class);
+        $records = $prepare->fetchAll(PDO::FETCH_CLASS, class1::class);
         return $records;
     }
 
@@ -57,20 +83,16 @@ class Classe extends DB
 
         if (empty($this->id)) {
 
-            $prepare = $this->prepare("INSERT INTO class(name,id_professor,id_level) OUTPUT INSERTED.id VALUES (:name,:id_professor,:id_level)");
+            $prepare = $this->prepare("INSERT INTO class(name) OUTPUT INSERTED.id VALUES (:name)");
             $prepare->bindParam(":name", $this->name, PDO::PARAM_STR);
-            $prepare->bindParam(":id_professor", $this->id_professor, PDO::PARAM_STR);
-            $prepare->bindParam(":id_level", $this->id_level, PDO::PARAM_STR);
             $prepare->execute();
 
             $result = $prepare->fetch(PDO::FETCH_ASSOC);
             return $result["id"];
         } else {
 
-            $prepare = $this->prepare("UPDATE class SET name=:name , id_professor=:id_professor , id_level=:id_level  WHERE id=:id");
+            $prepare = $this->prepare("UPDATE class SET name=:name WHERE id=:id");
             $prepare->bindParam(":name", $this->name, PDO::PARAM_STR);
-            $prepare->bindParam(":id_professor", $this->id_professor, PDO::PARAM_STR);
-            $prepare->bindParam(":id_level", $this->id_level, PDO::PARAM_STR);
             $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
             $prepare->execute();
         }

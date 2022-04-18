@@ -3,6 +3,7 @@ include_once "includes/defaults.php";
 include_once "models/DB.php";
 include_once "models/student.php";
 include_once "models/professor.php";
+include_once "models/class.php";
 //include_once "includes/header.php";
 
 $controller = $_GET['controller'];
