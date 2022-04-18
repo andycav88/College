@@ -96,4 +96,24 @@ class Student extends DB
         $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
         $prepare->execute();
     }
+    public static function getByRange($offset, $cantrows)
+    {
+        $conn = new DB();
+        $query = "SELECT id, name, lastname, email FROM student ORDER BY id OFFSET $offset ROWS FETCH NEXT $cantrows ROWS ONLY";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function countStudents()
+    {
+        $conn = new DB();
+        $query = "SELECT COUNT(*) total FROM student";
+        $prepare = $conn->query($query);
+        $prepare->execute();
+
+        $row = $prepare->fetch(PDO::FETCH_ASSOC);
+
+        return $row;
+    }
 }

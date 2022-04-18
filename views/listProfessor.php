@@ -1,8 +1,11 @@
+<!DOCTYPE html>
+
 <script>
     document.title = "College - Professor";
 </script>
 <?php include_once "includes/header.php" ?>
 
+<!DOCTYPE html>
 
 <body class="sb-nav-fixed">
     <?php include "includes/topnavbar.php" ?>
@@ -145,7 +148,7 @@
             //por default se ejecuta po el GET, no paso variables pq ya eso se configuro
             //en el router.php
             $.ajax({
-                type: "Post",
+                type: "POST",
                 url: "http://localhost/college/professor/delete",
                 data: {
                     id: idUpdate,

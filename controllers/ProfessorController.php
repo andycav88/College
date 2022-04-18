@@ -6,7 +6,6 @@ class ProfessorController
     {
         session_start();
         if (!$_SESSION['active']) {
-            $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college/";
             header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
             return;
         }
