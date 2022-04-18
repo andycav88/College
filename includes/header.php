@@ -1,13 +1,21 @@
 <?php
-session_start();
-if (!$_SESSION['active']) {
-    $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college/";
-    header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
-}
+
+if (!isset($_SESSION))
+    session_start();
+
+$dir =  $_SERVER['REQUEST_URI'];
+$dirSelf = explode("/", $dir);
+$size = count($dirSelf);
+$title = $dirSelf[$size - 1];
+
+
+if ($title != "passwordreset" && $title != "password")
+    if (!$_SESSION['active']) {
+        $ruta = "Location:http://" . $_SERVER['SERVER_NAME'] . "/college/";
+        header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
+    }
+
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +27,7 @@ if (!$_SESSION['active']) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- <title>Dashboard - SB Admin</title> -->
-    <title><?php echo $title ?></title>
+    <title id="titleID">College</title>
     <link href="http://localhost/college/dist/css/style.online.css" rel="stylesheet" />
     <link href="http://localhost/college/dist/css/styles.css" rel="stylesheet" />
     <script src="http://localhost/college/dist/js/all.js"></script>

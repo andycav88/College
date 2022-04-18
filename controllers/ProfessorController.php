@@ -4,6 +4,11 @@ class ProfessorController
 {
     public function index()
     {
+        session_start();
+        if (!$_SESSION['active']) {
+            header("Location:http://" . $_SERVER['SERVER_NAME'] . "/college/");
+            return;
+        }
         $professors = Professor::all();
         view("listProfessor", $professors);
     }

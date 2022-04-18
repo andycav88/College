@@ -1,6 +1,11 @@
-<?php $title = "Dashboard - Caso de Estudio" ?>
-<?php include "includes/header.php" ?>
+<!DOCTYPE html>
 
+<script>
+    document.title = "College - Professor";
+</script>
+<?php include_once "includes/header.php" ?>
+
+<!DOCTYPE html>
 
 <body class="sb-nav-fixed">
     <?php include "includes/topnavbar.php" ?>
@@ -9,7 +14,7 @@
         <main>
 
             <div class="container table-responsive">
-                <h1 class="mt-5 text-center"> Professors </h1>
+                <h1 class="text-center"> Professors </h1>
                 <button class="btn btn-success" id="btnAdd">Add +</button>
                 <table class="table  table-striped" id='table'>
                     <thead>
@@ -83,7 +88,7 @@
         </div>
     </div>
 </div>
-<!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
+
 <script>
     $(function() {
         var myModal = new bootstrap.Modal(document.getElementById('ProfeModal'))
@@ -120,7 +125,7 @@
                 type: "Post",
                 url: "http://localhost/college/professor/find",
                 data: {
-                    id: idUpdate,
+                    id: idUpdate
                 },
                 success: function(returnData) {
                     let results = JSON.parse(returnData);
@@ -143,7 +148,7 @@
             //por default se ejecuta po el GET, no paso variables pq ya eso se configuro
             //en el router.php
             $.ajax({
-                type: "Post",
+                type: "POST",
                 url: "http://localhost/college/professor/delete",
                 data: {
                     id: idUpdate,
