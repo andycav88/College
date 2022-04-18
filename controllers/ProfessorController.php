@@ -2,10 +2,41 @@
 
 class ProfessorController
 {
-    public function index()
-    {
-        $professors = Professor::all();
-        view("listProfessor", $professors);
+     public function index(){
+        
+        view("listProfessor","");
+
+
+     }
+
+    public function pagination()
+    {   
+        $start = $_POST['start'];
+        $end = $_POST['end'];
+        $nameP = $_POST['nameP'];
+        $emailP = $_POST['emailP'];
+        $newstart = ($start -1)* $end;
+        $allprofe = Professor::limite('','','','');
+        $allnameP = Professor::allValor($nameP, $emailP);
+        $professor = Professor::limite($nameP,$emailP,$newstart,$end);
+        if($nameP == "%"){
+            $cant = count($allprofe);
+        }
+        else{
+            $cant = count($allnameP);
+        }
+    
+        echo json_encode($professor)."*".$cant;
+    }
+
+
+    public function search(){
+        
+        $professor = new Professor();
+        $professor->id = $_POST['id'];
+        $results = $professor->find();
+        echo json_encode($results);
+
     }
 
     public function create()
@@ -16,15 +47,23 @@ class ProfessorController
             isset($_POST['password']) && $_POST['password']
         ) {
             $professor = new Professor();
+            $id = $_POST['id'];
+            $professor->id = $_POST['id'];
             $professor->specialist = $_POST['specialist'];
             $professor->name = $_POST['name'];
             $professor->lastname = $_POST['lastname'];
             $professor->email = $_POST['email'];
             $professor->password = $_POST['password'];
-            $insertedID = $professor->save();
-            $professor->id = $insertedID;
-            $results = json_encode($professor);
-            echo $results;
+            if($id == "" || $id == null){
+                $insertedID = $professor->save();
+                $professor->id = $insertedID;
+                $results = $professor;
+            }else{
+                $professor->save();
+                $results = $professor; 
+            }
+            echo json_encode($results);
+            
         }
     }
 
