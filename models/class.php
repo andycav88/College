@@ -30,15 +30,14 @@ class class1 extends DB
         return $this;
     }
 
-    public static function limite($nameC,$newstart ,$end)
+    public static function limite($nameC, $newstart, $end)
     {
-      if( $newstart != '' && $end != ''){
-        $query = "SELECT * FROM class WHERE name LIKE '%$nameC%' ORDER BY id 
+        if ($newstart != '' && $end != '') {
+            $query = "SELECT * FROM class WHERE name LIKE '%$nameC%' ORDER BY id 
         OFFSET $newstart ROWS FETCH NEXT $end ROWS ONLY;";
+        } else {
+            $query = "SELECT * FROM class";
         }
-         else{
-        $query = "SELECT * FROM class";
-         }
         $conn = new DB();
         $data = $conn->query($query);
         $records = $data->fetchAll(PDO::FETCH_CLASS, class1::class);
@@ -52,7 +51,6 @@ class class1 extends DB
         $data = $conn->query($query);
         $records = $data->fetchAll(PDO::FETCH_CLASS, class1::class);
         return $records;
-        
     }
 
 
@@ -104,5 +102,14 @@ class class1 extends DB
         $prepare = $this->prepare("DELETE FROM class WHERE id=:id");
         $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
         $prepare->execute();
+    }
+
+    public function getbyprofid($profId)
+    {
+        $prepare = $this->prepare("SELECT * FROM class WHERE id_professor=:id");
+        $prepare->bindParam(":id", $profId, PDO::PARAM_STR);
+        $prepare->execute();
+        $records = $prepare->fetchAll(PDO::FETCH_ASSOC);
+        return $records;
     }
 }

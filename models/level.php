@@ -8,7 +8,7 @@ class Level extends DB
 
 
 
-   /* public function __construct($level, $course, $classroom)
+    /* public function __construct($level, $course, $classroom)
     {
 
         $this->level = $level;
@@ -42,14 +42,14 @@ class Level extends DB
         return $records;
     }
 
-    public function findById($id)
+    public static function findbyid($id)
     {
-
-        //SQL SERVER      
-        $prepare = $this->prepare("SELECT FROM level WHERE id=:id");
-        $prepare->bindParam(":id", $this->$id, PDO::PARAM_STR);
+        //SQL SERVER 
+        $level = new Level();
+        $prepare = $level->prepare("SELECT * FROM level WHERE id=:id");
+        $prepare->bindParam(":id", $id, PDO::PARAM_STR);
         $prepare->execute();
-        $records = $prepare->fetchAll(PDO::FETCH_CLASS, Level::class);
+        $records = $prepare->fetch(PDO::FETCH_CLASS, Level::class);
         return $records;
     }
 

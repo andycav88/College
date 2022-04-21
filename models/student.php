@@ -96,7 +96,7 @@ class Student extends DB
         $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
         $prepare->execute();
     }
-    public static function getByRange($offset, $cantrows)
+    public function getByRange($offset, $cantrows)
     {
         $conn = new DB();
         $query = "SELECT id, name, lastname, email FROM student ORDER BY id OFFSET $offset ROWS FETCH NEXT $cantrows ROWS ONLY";
@@ -105,7 +105,7 @@ class Student extends DB
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public static function countStudents()
+    public function countStudents()
     {
         $conn = new DB();
         $query = "SELECT COUNT(*) total FROM student";

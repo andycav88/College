@@ -72,15 +72,13 @@ class StudentController
     //PAGINADO
     public function pagstudent()
     {
-        $jsondata = array();
-
-        if ($_POST['param1'] == "cuantos") {
-
-            $jsondata = Student::countStudents();
+        $student = new Student();
+        if ($_POST['param1'] == "count") {
+            $jsondata = $student->countStudents();
         } elseif ($_POST["param1"] == "dame") {
             $limit = $_POST['limit'];
             $offset = $_POST['offset'];
-            $jsondata = Student::getByRange($offset, $limit);
+            $jsondata = $student->getByRange($offset, $limit);
         }
         echo json_encode($jsondata);
         exit();
