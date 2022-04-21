@@ -20,41 +20,28 @@ class Professor extends DB
         return $records;
     }
 
-    public static function limite($nameP,$emailP,$newstart ,$end)
+
+    public function getByRange($findByname, $findBylast, $findByemail, $offset, $cantrows)
     {
-      if( $newstart != '' && $end != ''){
-        $query = "SELECT * FROM professor WHERE name LIKE '%$nameP%' AND email LIKE '%$emailP%' ORDER BY id 
-        OFFSET $newstart ROWS FETCH NEXT $end ROWS ONLY;";
-        }
-         else{
-        $query = "SELECT * FROM professor";
-         }
         $conn = new DB();
-        $data = $conn->query($query);
-        $records = $data->fetchAll(PDO::FETCH_CLASS, Professor::class);
-        return $records;
+        $query = "SELECT * FROM professor WHERE name LIKE '%$findByname%' AND lastname LIKE'%$findBylast%'AND 
+        email LIKE '%$findByemail%'  ORDER BY id OFFSET $offset ROWS FETCH NEXT $cantrows ROWS ONLY";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public static function allValor($nameP,$emailP)
+    public function countProfessor($findByname, $findBylast, $findByemail)
     {
-        $query = "SELECT * FROM professor WHERE name LIKE '%$nameP%' AND email LIKE '%$emailP%' ORDER BY id;";
         $conn = new DB();
-        $data = $conn->query($query);
-        $records = $data->fetchAll(PDO::FETCH_CLASS, Professor::class);
-        return $records;
-        
+        $query = "SELECT COUNT(*) total FROM professor WHERE name LIKE '%$findByname%' AND lastname LIKE'%$findBylast%'AND 
+        email LIKE '%$findByemail%'";
+        $prepare = $conn->query($query);
+        $prepare->execute();
+
+        $row = $prepare->fetch(PDO::FETCH_ASSOC);
+
+        return $row;
     }
-
-
-    // public function __construct($specialist, $name, $lastname, $email, $password)
-    // {
-
-    //     $this->especialist = $specialist;
-    //     $this->name = $name;
-    //     $this->lastname = $lastname;
-    //     $this->email = $email;
-    //     $this->password = $password;
-    // }
 
     public function __get($property)
     {
@@ -116,7 +103,7 @@ class Professor extends DB
             $prepare->bindParam(":password", $this->password, PDO::PARAM_STR);
             $prepare->bindParam(":id", $this->id, PDO::PARAM_STR);
             $prepare->execute();
-                   }
+        }
     }
 
 

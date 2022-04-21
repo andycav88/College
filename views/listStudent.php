@@ -1,45 +1,65 @@
-<script>
-    document.title = "College - Student";
-</script>
 <?php include "includes/header.php" ?>
-
 
 <body class="sb-nav-fixed">
     <?php include "includes/topnavbar.php" ?>
     <?php include "includes/sidenavbar.php" ?>
-    <div id="layoutSidenav_content">
+    <div class="d-flex" id="layoutSidenav_content">
         <main>
-
-            <div class="container table-responsive">
-                <h1 class="mt-5 text-center"> Students </h1>
-                <button class="btn btn-success" id="btnAdd">Add</button>
-                <table class="table  table-striped" id='table'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center" id="paginatorID">
-                        <!-- Aqui se crean los controles del paginado -->
-                    </ul>
-                </nav>
+            <div class="container-fluid">
+                <div class="row">
+                    <h1 class="text-center">Students</h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="btn-group btn-group-sm " role="group">
+                            <button type="button" class="btn mx-1 btn-success" id="btnAdd">Add</button>
+                            <button type="button" class="btn mx-1 btn-warning" id="btnUpdate">Modify</button>
+                            <button type=" button" class="btn mx-1 btn-danger" id="btnDelete">Delete</button>
+                        </div>
+                    </div>
+                    <div class=" col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="text-end mb-0" id="filterBy">Filter by:</p>
+                            </div>
+                            <div class="col-md-3 mb-1">
+                                <input name="textinput" type="text" placeholder="Name" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-md-3 mb-1">
+                                <input name="textinput" type="text" placeholder="Last Name" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-md-3 mb-1">
+                                <input name="textinput" type="text" placeholder="Email" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <table class="table table-striped table-sm" id='table'>
+                        <thead>
+                            <tr>
+                                <th><input class="form-check-input" type="checkbox" id="checkboxAll" value=""></th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- TABLE BODY -->
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center" id="paginatorID">
+                            <!-- Aqui se crean los controles del paginado -->
+                        </ul>
+                    </nav>
+                </div>
             </div>
-
-
         </main>
-
         <?php include "includes/footer.php" ?>
     </div>
     </div>
-
 </body>
 <div class="modal fade" id="ProfeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -191,20 +211,17 @@
 
         name = $('#nameStudent').val();
         lastname = $('#lastStudent').val();
-        //debugger;
 
         email = $('#emailStudent').val();
         password = $('#passStudent').val();
-        debugger;
         $.ajax({
             //La url del archivo php
             type: "POST",
-            url: "http://localhost/college/professor/create",
+            url: "http://localhost/college/student/create",
             data: {
                 name: name,
                 lastname: lastname,
                 password: password,
-                specialist: specialist,
                 email: email,
                 id: idUpdate
             },
@@ -215,39 +232,35 @@
                 if (idUpdate == "") {
                     let tr = document.createElement("tr");
                     tr.setAttribute('data-id', results.id);
-                    tr.innerHTML = `<td>${results.id}</td>
+                    tr.innerHTML = `<td><input class="form-check-input" type="checkbox" id="checkbox${results.id}" value="${results.id}"> </td>
+                                    <td>${results.id}</td>
                                     <td>${results.name}</td>
                                     <td>${results.lastname}</td>
-                                    <td>${results.email}</td>
-                                    <td><button class='btn btn-warning btnUpdate'>Update</button></td>
-                                    <td><button class='btn btn-danger btnDelete'>Delete</button></td>`;
+                                    <td>${results.email}</td>`;
                     //The .append() method inserts the specified content as the last child of each element in the jQuery collection 
                     document.getElementById("table").querySelector("tbody").append(tr);
-                    $(".btnUpdate").click(editStudent);
-                    $(".btnDelete").click(deleteProfesor);
                 } else {
                     let col = $(`tr[data-id=${results.id}]`).find('td');
                     col[0].innerText = results.id;
                     col[1].innerText = results.name;
                     col[2].innerText = results.lastname;
                     col[3].innerText = results.email;
-                    col[4].innerText = results.specialist;
                 }
                 myModal.hide();
             }
         })
     });
 
-    $(".btnUpdate").click(editStudent);
-    $(".btnDelete").click(deleteProfesor);
+    $("#btnUpdate").click(editStudent);
+    $("#btnDelete").click(deleteProfesor);
 
     /*  ------Paginador-------- */
 
     var paginador;
     var totalPaginas;
-    var itemsPorPagina = 5;
-    var numerosPorPagina = 10;
-    var paginaActual = 1;
+    var itemsPorPagina = 14;
+    var numerosPorPagina = 5;
+    var paginaActual = 0;
     var ultimaRango = numerosPorPagina;
 
     function creaPaginador(totalItems) {
@@ -256,30 +269,42 @@
         totalPaginas = Math.ceil(totalItems / itemsPorPagina);
 
         $('<li class="page-item"><a class="page-link" href="#" >Previous</a>').appendTo(paginador);
-        var pag = 0;
-        while (totalPaginas > pag) {
-            $(`<li class="page-item pageNum"><a class="page-link" href="#">${pag+1}</a></li>`).appendTo(paginador);
-            pag++;
-        };
+
+        for (let index = 0; index < totalPaginas; index++) {
+            $(`<li class="page-item pageNum"><a class="page-link" href="#">${index+1}</a></li>`).appendTo(paginador);
+        }
+
+        $('<li class="page-item"><a class="page-link" href="#">Next</a></li>').appendTo(paginador);
 
         if (numerosPorPagina > 1) {
             $(".pageNum").hide();
             $(".pageNum").slice(0, numerosPorPagina).show();
         };
-        $('<li class="page-item"><a class="page-link" href="#">Next</a></li>').appendTo(paginador);
-
-
         //Event Prev Page
         paginador.children().first().click(function() {
             if (paginaActual >= 1) {
                 cargaPagina(paginaActual - 1);
+                if (paginaActual == ultimaRango - numerosPorPagina - 1) {
+                    let a = ultimaRango - numerosPorPagina - 1;
+                    let b = a + numerosPorPagina;
+                    debugger;
+                    $(".pageNum").hide();
+                    $(".pageNum").slice(a, b).show();
+                    ultimaRango = b;
+                }
             }
         });
         //Event Next Page
         paginador.children().last().click(function() {
-
             if (paginaActual < totalPaginas - 1) {
                 cargaPagina(paginaActual + 1);
+                if (paginaActual == ultimaRango) {
+                    let a = ultimaRango - numerosPorPagina + 1;
+                    let b = a + numerosPorPagina;
+                    $(".pageNum").hide();
+                    $(".pageNum").slice(a, b).show();
+                    ultimaRango = b;
+                }
             }
         });
         //Event Page Numbers
@@ -288,7 +313,7 @@
             cargaPagina(irpagina);
         });
 
-        cargaPagina(0);
+        cargaPagina(paginaActual);
     }
 
     function cargaPagina(pagina) {
@@ -303,91 +328,87 @@
                 offset: desde
             },
             success: function(returnData) {
-
                 var data = JSON.parse(returnData);
                 $('tbody').children().remove();
                 $.each(data, function() {
-
                     let tr = document.createElement("tr");
                     tr.setAttribute('data-id', this.id);
-                    tr.innerHTML = `<td>${this.id}</td>
-                        <td>${this.name}</td>
-                        <td>${this.lastname}</td>
-                        <td>${this.email}</td>
-                        <td><button class='btn btn-warning btnUpdate'>Update</button></td>
-                        <td><button class='btn btn-danger btnDelete'>Delete</button></td>`;
+                    tr.innerHTML = `<td><input class="form-check-input" type="checkbox" id="checkbox${this.id}" value="${this.id}"> </td>
+                                    <td>${this.id}</td>
+                                    <td>${this.name}</td>
+                                    <td>${this.lastname}</td>
+                                    <td>${this.email}</td>`;
                     //The .append() method inserts the specified content as the last child of each element in the jQuery collection 
                     document.getElementById("table").querySelector("tbody").append(tr);
-                    $(".btnUpdate").click(editStudent);
-                    $(".btnDelete").click(deleteProfesor);
                 })
             }
         });
         if (pagina >= 1) {
             paginador.children().first().removeClass('disabled');
-
         } else {
             paginador.children().first().addClass('disabled');
         }
-        debugger;
         if (pagina == (totalPaginas - 1)) {
-
             paginador.children().last().addClass('disabled');
             paginador.children().last().data('tabindex', "-1");
         } else {
-
             paginador.children().last().removeClass('disabled');
         }
-
         paginaActual = pagina;
-
-        if (totalPaginas > 1) {
-            if ((ultimaRango - paginaActual) <= 1) {
-                let b = ultimaRango + 2;
-                let a = b - numerosPorPagina;
-                $(".pageNum").hide();
-                $(".pageNum").slice(a, b).show();
-                ultimaRango = b;
-            } else {
-                if ((ultimaRango - paginaActual == numerosPorPagina) && ultimaRango > numerosPorPagina) {
-                    let b = ultimaRango - 2;
-                    let a = b - numerosPorPagina;
-                    debugger;
-                    $(".pageNum").hide();
-                    $(".pageNum").slice(a, b).show();
-                    ultimaRango = b;
-                }
-            }
-
-        }
-
         paginador.children().removeClass("active");
         paginador.children().eq(pagina + 1).addClass("active");
-
-
-
-
     }
 
-
+    /*On Document Load*/
     $(function() {
+        assignFilterByAlign(); // calling function Alignment od Filter by:
 
+        //Pagination Method that return the total rows in student's table
         $.ajax({
             type: "POST",
             url: "http://localhost/college/student/pagstudent",
             data: {
-                param1: "cuantos"
+                param1: "count"
             },
             success: function(returnData) {
-
-
                 let result = JSON.parse(returnData);
-                console.log('Total Rows :>> ', result['total']);
                 creaPaginador(result['total']);
             }
         });
 
     });
+    /* Filtrado de busqueda del paginador*/
+
+
+    // $(document).ready(function() {
+    //     $("#myInput").on("keyup", function() {
+    //         var value = $(this).val().toLowerCase();
+    //         $("#myTable tr").filter(function() {
+    //             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //         });
+    //     });
+    // });
+
+
+
+
+
+    /*------------------ On Scren Risize --------------------*/
+    /*----------------------------------- --------------------*/
+
+
+    window.addEventListener('resize', () => {
+        assignFilterByAlign(); // calling function on resize
+    });
+
+    function assignFilterByAlign() {
+        if ($(window).width() < 768) {
+            /* checking for bootstrap MD breakpoint */
+            $('#filterBy').removeClass('text-end').addClass('text-start');
+        } else {
+            $('#filterBy').removeClass('text-start').addClass('text-end');
+        }
+    }
 </script>
 
 

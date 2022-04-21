@@ -4,15 +4,16 @@ class LevelController
 {
     public function index()
     {
-        include_once "views/index.php";
-        $level = new Level();
-        $level->level = "PRE-UNIV";
-        $level->course = "2";
-        $level->classroom = "456";
-        $level->id = 1;
-        //  $level->save();
-        $level->remove();
-        echo $level;
+        // view("", "");
+        // $level = new Level();
+        // $level->level = "PRE-UNIV";
+        // $level->course = "2";
+        // $level->classroom = "456";
+        // $level->id = 1;
+        // //  $level->save();
+        // $level->remove();
+        // echo $level;
+        view("listClass", "");
     }
 
     public function create()
@@ -53,7 +54,7 @@ class LevelController
     public function delete()
     {
         //  try{
-        $level = new Student();
+        $level = new Level();
         $level = $level->find($_POST['id']);
         $level->remove();
         //  echo json_encode(['status' => true]);
@@ -62,5 +63,14 @@ class LevelController
 
         //  }
 
+    }
+    public function getlevelid()
+    {
+
+        if (isset($_POST['id'])) {
+
+            $result = Level::findbyid($_POST['id']);
+        }
+        echo json_encode($result);
     }
 }

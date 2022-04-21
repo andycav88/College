@@ -1,62 +1,72 @@
-<?php $title = "Dashboard - Caso de Estudio" ?>
 <?php include "includes/header.php" ?>
 
-<body class="sb-nav-fixed" onload="pagination('%','%',1,5);">
+<body class="sb-nav-fixed">
     <?php include "includes/topnavbar.php" ?>
     <?php include "includes/sidenavbar.php" ?>
-    <div id="layoutSidenav_content">
+    <div class="d-flex" id="layoutSidenav_content">
         <main>
-            <div class="container table-responsive">
-                <form class="row g-3">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id='findname' onkeyup="pagination('%','%',1,'');"   placeholder="Username" aria-label="Username">
-                        <span class="input-group-text">@</span>
-                        <input type="text" class="form-control" id='findemail' placeholder="email" onkeyup="pagination('%','%',1,'');"  aria-label="Server">
-                    </div>
-                    <div class="input-group  col-12">
-                        <select class="form-select" id="select" onChange="pagination('%','%',1,'')" >
-                            <option selected>5</option>
-                            <option>10</option>
-                            <option>20</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="container table-responsive">
-                <h1 class="text-center"> Professors </h1>
-
-                <button class="btn btn-success" id="btnAdd">Add +</button>
-                <table class="table  table-striped" id='table'>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Specialist</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-
-
-                    </tbody>
-                </table>
-                <div id="pagination">
-                    <nav aria-label="..." id="nav">
-
-                    </nav>
+            <div class="container-fluid">
+                <div class="row">
+                    <h1 class="text-center">Professor</h1>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="btn-group btn-group-sm " role="group">
+                            <button type="button" class="btn mx-1 btn-success" id="btnAdd">Add</button>
+                            <button type="button" class="btn mx-1 btn-warning" id="btnUpdate">Modify</button>
+                            <button type=" button" class="btn mx-1 btn-danger" id="btnDelete" disabled>Delete</button>
+                        </div>
+                    </div>
+                    <div class=" col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="text-end mb-0" id="filterBy">Filter by:</p>
+                            </div>
+                            <div class="col-md-3 mb-1">
+                                <input name="textinput" type="text" placeholder="Name" class="form-control form-control-sm" id="nameP" onkeyup="initPaginator();" />
+                            </div>
+                            <div class="col-md-3 mb-1">
+                                <input name="textinput" type="text" placeholder="Last Name" class="form-control form-control-sm" id="lastP" onkeyup="initPaginator();" />
+                            </div>
+                            <div class="col-md-3 mb-1">
+                                <input name="textinput" type="text" placeholder="Email" class="form-control form-control-sm" id="emailP" onkeyup="initPaginator();" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table table-responsive">
+                    <table class="table table-hover accordion" id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Specialist</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyID">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alert alert-danger text-center" role="alert" id="notFound" style="display:none">
+                    No result found!
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center" id="paginatorID">
+                    </ul>
+                </nav>
+
             </div>
-
-
-        </main>
-
-        <?php include "includes/footer.php" ?>
     </div>
-    </div>
+
+    </main>
+
 
 </body>
+</div>
+<?php include "includes/footer.php" ?>
 <div class="modal fade" id="ProfeModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,7 +85,7 @@
                     <label id="labelL">Last Name</label>
                 </div>
                 <div class="form-check mb-3">
-                    <input class="form-check-input " type="checkbox" value="" id="speciaProfe1" name="radioProfe">
+                    <input class="form-check-input " type="checkbox" value="" id="speciaProfe1" name="radioProfeAll">
                     <label class="form-check-label " for="speciaProfe">
                         Specialist
                     </label>
@@ -104,101 +114,124 @@
     var myModal = new bootstrap.Modal(document.getElementById('ProfeModal'))
     let idUpdate = "";
 
-      pagination = function(nameP,emailP, start, end) {
+    var paginador;
+    var totalPaginas;
+    var itemsPorPagina = 14;
+    var numerosPorPagina = 5;
+    var paginaActual = 0;
+    var ultimaRango = numerosPorPagina;
+    var findByname;
+    var findBylast;
+    var findByemail;
+    var classesP;
 
-    
-        if ($('#findemail').val() != '' || emailP != '%') {
-            emailP = $('#findemail').val();
-        }
 
-        if ($('#findname').val() != '' || nameP != '%') {
-            nameP = $('#findname').val();
-        }
-        end = $('#select').val();
 
-      
-        
-      
+
+    /*  ------Paginador-------- */
+
+    function initPaginator() {
+        findByname = $('#nameP').val() != '' ? $('#nameP').val() : '%';
+        findBylast = $('#lastP').val() != '' ? $('#lastP').val() : '%';
+        findByemail = $('#emailP').val() != '' ? $('#emailP').val() : '%';
+
         $.ajax({
-
-            type: "Post",
-            url: "http://localhost/college/professor/pagination",
+            type: "POST",
+            url: "http://localhost/college/professor/pagprofessor",
             data: {
-                start: start,
-                end: end,
-                nameP: nameP,
-                emailP: emailP
+                param1: "count",
+                findByname: findByname,
+                findBylast: findBylast,
+                findByemail: findByemail,
             },
             success: function(returnData) {
-
-                $('#nav').empty();
-                $('#tbody').empty();
-                var arrayfix = returnData.split('*');
-                var results = JSON.parse(arrayfix[0]);
-                var cant = arrayfix[1];
-                
-               
-
-                for (var i = 0; i < results.length; i++) {
-
-                    let tr = document.createElement("tr");
-                    tr.setAttribute('data-id', results[i].id);
-                    tr.innerHTML = `<td>${results[i].id}</td>
-                                <td>${results[i].name}</td>
-                                <td>${results[i].lastname}</td>
-                                <td>${results[i].email}</td>
-                                <td>${results[i].specialist}</td>
-                                <td><button class='btn btn-warning btnUpdate'>Update</button></td>
-                                <td><button class='btn btn-danger btnDelete'>Delete</button></td>`;
-                    //The .append() method inserts the specified content as the last child of each element in the jQuery collection 
-                    document.getElementById("table").querySelector("tbody").append(tr);
-                    $(".btnUpdate").click(editarTarea);
-                    $(".btnDelete").click(deleteProfesor);
-                }
-              
-                numLink = Math.ceil(cant / end);
-  
-                var ul = document.createElement("ul");
-                if (start > 1) {
-                    ul.innerHTML = `<li class="page-item active">
-              <a class="page-link" href="javascript:void(0)" onclick="pagination('${nameP}','${emailP}',${start-1},${end}) ">Previous</a>
-              </li>`;
-                } else {
-                    ul.innerHTML = `<li class="page-item disabled">
-              <a class="page-link" href="javascript:void(0)" tabindex="-1" >Previous</a>
-              </li>`;
-                }
-
-                ul.setAttribute('class', 'pagination');
-                for (let i = 1; i <= numLink; i++) {
-                    if (start == i) {
-                        ul.innerHTML += `<li class='page-item active' id= "link"><a class='page-link' href='javascript:void(0)'>${i}</li>`;
-                    } else {
-                        ul.innerHTML += `<li class='page-item'><a class='page-link' href='javascript:void(0)' onclick="pagination('${nameP}','${emailP}',${i},${end})" >${i}</li>`;
-
-                    }
-                }
-
-                if (start < (numLink - 1)) {
-                    ul.innerHTML += `<li class="page-item active">
-             <a class="page-link" href="javascript:void(0)" onclick="pagination('${nameP}','${emailP}',${start+1},${end})">Next</a></li>`;
-                } else {
-                    ul.innerHTML += `<li class="page-item disabled">
-             <a class="page-link" href="javascript:void(0)" >Next</a></li>`;
-                }
-                document.getElementById("pagination").querySelector("nav").append(ul);
-
+                let result = JSON.parse(returnData);
+                creaPaginador(result['total']);
             }
-
         });
-
-
     };
 
+    function creaPaginador(totalItems) {
 
+        $("#paginatorID").empty();
+        if (totalItems == 0) {
+            $('#notFound').show();
+            $('tbody').empty();
+        } else {
+            $('#notFound').hide();
 
+            paginador = $("#paginatorID");
+            totalPaginas = Math.ceil(totalItems / itemsPorPagina);
 
-    let limpiarCampos = function() {
+            $('<li class="page-item"><a class="page-link">Previous</a>').appendTo(paginador);
+
+            for (let index = 0; index < totalPaginas; index++) {
+                $(`<li class="page-item pageNum"><a class="page-link">${index+1}</a></li>`).appendTo(paginador);
+            }
+
+            $('<li class="page-item"><a class="page-link">Next</a></li>').appendTo(paginador);
+
+            if (numerosPorPagina > 1) {
+                $(".pageNum").hide();
+                $(".pageNum").slice(0, numerosPorPagina).show();
+            };
+            // Event Prev Page
+            paginador.children().first().click(function() {
+                if (paginaActual >= 1) {
+                    cargaPagina(paginaActual - 1);
+                    if (paginaActual == ultimaRango - numerosPorPagina - 1) {
+                        let a = ultimaRango - numerosPorPagina - 1;
+                        let b = a + numerosPorPagina;
+                        $(".pageNum").hide();
+                        $(".pageNum").slice(a, b).show();
+                        ultimaRango = b;
+                    }
+                }
+            });
+            //Event Next Page
+            paginador.children().last().click(function() {
+                if (paginaActual < totalPaginas - 1) {
+                    cargaPagina(paginaActual + 1);
+                    if (paginaActual == ultimaRango) {
+                        let a = ultimaRango - numerosPorPagina + 1;
+                        let b = a + numerosPorPagina;
+                        $(".pageNum").hide();
+                        $(".pageNum").slice(a, b).show();
+                        ultimaRango = b;
+                    }
+                }
+            });
+            //Event Page Numbers
+            $('.pageNum').click(function() {
+                var irpagina = $(this).text() - 1;
+                cargaPagina(irpagina);
+                return;
+            });
+            cargaPagina(paginaActual);
+        }
+    }
+
+    function cargaPagina(pagina) {
+        var desde = pagina * itemsPorPagina;
+
+        loadProfData(desde);
+
+        let prevBtn = paginador.children().first();
+        let nextBtn = paginador.children().last();
+
+        pagina >= 1 ? prevBtn.removeClass('disabled') : prevBtn.addClass('disabled');
+
+        pagina == (totalPaginas - 1) ? (
+            nextBtn.addClass('disabled'),
+            nextBtn.data('tabindex', "-1")
+        ) : nextBtn.removeClass('disabled');
+
+        paginaActual = pagina;
+        paginador.children().removeClass("active");
+        paginador.children().eq(pagina + 1).addClass("active");
+    }
+
+    function limpiarCampos() {
         $("#speciaProfe1").prop("checked", false);
         $('#nameProfe').val("");
         $('#lastProfe').val("");
@@ -211,59 +244,55 @@
         $('#labelE').css('color', 'black');
     };
 
+    //! Estoy aqui
+    //! Estoy aqui//! Estoy aqui//! Estoy aqui
 
 
-    //Add+ Button Action - Show Modal
-    $('#btnAdd').click(function() {
 
-        $('#modalLabel').html("New Professor");
-        idUpdate = "";
-        limpiarCampos();
 
-        myModal.show();
-    });
-    let editarTarea = function() {
+    function updateProfessor() {
 
-        //.dataset obtiene el valor de la etiqueta data-... del boton editar
-        // idUpdate = event.target.parentNode.parentNode.dataset.id;
-        idUpdate = event.target.parentNode.parentNode.dataset.id;
-        $("#modalLabel").html("Update Professor");
-        limpiarCampos();
 
-        //Abajo solo paso la url pq solo quiero buscar la tarea por el id
-        //por default se ejecuta po el GET, no paso variables pq ya eso se configuro
-        //en el router.php
+        let checkedProfesor = $('input[name="profCheckbox"]:checked');
 
-        $.ajax({
-            type: "Post",
-            url: "http://localhost/college/professor/search",
-            data: {
-                id: idUpdate,
-            },
-            success: function(returnData) {
-                let results = JSON.parse(returnData);
-                $('#nameProfe').val(results.name);
-                $('#lastProfe').val(results.lastname);
-                $('#emailProfe').val(results.email);
-                if (results.specialist == "true") {
-                    $("#speciaProfe1").prop("checked", true);
-                } else {
-                    $("#speciaProfe1").prop("checked", false);
+        if (checkedProfesor && checkedProfesor.length == 1) { //verificamos que este marcado y que solo halla marcado uno. 
+
+            idUpdate = checkedProfesor.val();
+
+            $("#modalLabel").html("Update Professor");
+            limpiarCampos();
+
+            //Abajo solo paso la url pq solo quiero buscar la tarea por el id
+            //por default se ejecuta po el POST, no paso variables pq ya eso se configuro
+            //en el router.php
+
+            $.ajax({
+                type: "Post",
+                url: "http://localhost/college/professor/search",
+                data: {
+                    id: idUpdate,
+                },
+                success: function(returnData) {
+                    let results = JSON.parse(returnData);
+                    $('#nameProfe').val(results.name);
+                    $('#lastProfe').val(results.lastname);
+                    $('#emailProfe').val(results.email);
+                    if (results.specialist == "1") {
+                        $("#speciaProfe1").prop("checked", true);
+                    } else {
+                        $("#speciaProfe1").prop("checked", false);
+                    }
+
                 }
-
-            }
-        });
-        myModal.show();
+            });
+            myModal.show();
+        }
     };
 
-    let deleteProfesor = function() {
+    function deleteProfesor() {
+
         //.dataset obtiene el valor de la etiqueta data-... del boton editar
         idUpdate = event.target.parentNode.parentNode.dataset.id;
-        //$("#modalLabel").html("Delete Professor");
-        // limpiarCampos();
-        //Abajo solo paso la url pq solo quiero buscar la tarea por el id
-        //por default se ejecuta po el GET, no paso variables pq ya eso se configuro
-        //en el router.php
         $.ajax({
             type: "Post",
             url: "http://localhost/college/professor/delete",
@@ -280,7 +309,7 @@
                 }
             }
         });
-        pagination('%','%',1,'');
+        initPaginator();
     };
     //Save Button Action - Modal
     $('#btnSave').click(function() {
@@ -340,20 +369,8 @@
                     specialist = 'No';
                 }
                 if (idUpdate == "") {
-
-                    let tr = document.createElement("tr");
-                    tr.setAttribute('data-id', results.id);
-                    tr.innerHTML = `<td>${results.id}</td>
-                                        <td>${results.name}</td>
-                                        <td>${results.lastname}</td>
-                                        <td>${results.email}</td>
-                                        <td>${specialist}</td>
-                                        <td><button class='btn btn-warning btnUpdate'>Update</button></td>
-                                        <td><button class='btn btn-danger btnDelete'>Delete</button></td>`;
-                    //The .append() method inserts the specified content as the last child of each element in the jQuery collection 
-                    document.getElementById("table").querySelector("tbody").append(tr);
-                    $(".btnUpdate").click(editarTarea);
-                    $(".btnDelete").click(deleteProfesor);
+                    // ! Poner mensaje de Update Successful
+                    alert("Modificado Ok");
                 } else {
                     let col = $(`tr[data-id=${results.id}]`).find('td');
                     col[0].innerText = results.id;
@@ -361,24 +378,153 @@
                     col[2].innerText = results.lastname;
                     col[3].innerText = results.email;
                     col[4].innerText = specialist;
-
                 }
-
                 myModal.hide();
             }
         })
-        pagination('%','%',1,'');
+        initPaginator();
+
     });
 
-    $(".btnUpdate").click(editarTarea);
-    $(".btnDelete").click(deleteProfesor);
+
+
+    //!++++++++++++ Functions para llenar los datos de clase y level +++++++++++++++
+    //!---------------------------------------------------------------------------
+    function loadProfData(desde) {
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/college/professor/pagprofessor",
+            data: {
+                param1: "dame",
+                limit: itemsPorPagina,
+                offset: desde,
+                findByemail: findByemail,
+                findByname: findByname,
+                findBylast: findBylast,
+            },
+            success: function(returnData) {
+                var data = JSON.parse(returnData);
+                $('#tbodyID').children().remove();
+                $.each(data, function() {
+                    let tr = $(`<tr id="tr${this.id}" class="trparent" data-id="${this.id}" data-bs-toggle="collapse" data-bs-target="#r${this.id}">`);
+
+                    tr.html(`<th scope="row">${this.id}</th>
+                            <td>${this.name}</td>
+                            <td>${this.lastname}</td>
+                            <td>${this.email}</td>
+                            <td>${this.specialist == 1 ? "YES" : "NO"}</td>`);
+
+                    $('#tbodyID').append(tr);
+                })
+
+                loadClasses();
+
+            }
+        })
+    };
+
+    function loadClasses() {
+        {
+            var x = "";
+            var trs = $('#tbodyID').children();
+
+            for (let i = 0; i < trs.length; ++i) {
+                let trid = trs[i].getAttribute("data-id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/college/class/searchbyprofid",
+                    data: {
+                        idProf: trid
+                    },
+                    success: function(returnData) {
+
+                        createClassElement(JSON.parse(returnData), trid);
+                    }
+                });
+            }
+            return;
+        }
+    };
+
+    function createClassElement(classData, trid) {
+        // console.log('classData :>> ', classData);
+        // debugger;
+
+        let trC = $(`<tr id="r${trid}" class="collapse accordion-collapse" data-bs-parent=".table">`);
+        let td = $('<td colspan="5">');
+        let ol = $(`<ol class="list-group list-group-numbered olist" data-id="${trid}" id="ol${trid}">`);
+
+
+        for (let index = 0; index < classData.length; index++) {
+            let li = $('<li class="list-group-item d-flex justify-content-between align-items-start">');
+            let div = $(` <div class="ms-2 me-auto" id=pill${trid}>`); //Aqui en este elemento es donde hay que  poner datos adicionales
+            let divHeading = $('<div class="fw-bold">');
+            div.appendTo(li)
+            divHeading.html(classData[index].name)
+            divHeading.appendTo(div);
+            li.appendTo(ol);
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/college/level/getlevelid",
+                data: {
+                    id: classData[0].id_level
+                },
+                success: function(returnData) {
+                    debugger;
+                    result = JSON.parse(returnData);
+                    debugger;
+                    li.append($(`<span class="badge bg-primary rounded-pill">${result.level}</span>`));
+                    li.append($(`<span class="badge bg-primary rounded-pill">${result.classroom}</span>`));
+                    li.append($(`<span class="badge bg-primary rounded-pill">${result.course}</span>`));
+                }
+            });
+        }
+        ol.appendTo(td);
+        trC.append(td);
+        $(`#tr${trid}`).after(trC);
+        // debugger;
+    }
+
+
+
+    //!++++++++++++++++++++++++ Events ++++++++++++++++++
+    //!--------------------------------------------------
+
+    //Buttons Actions
+    $('#btnAdd').click(function() {
+        $('#modalLabel').html("New Professor");
+        idUpdate = "";
+        limpiarCampos();
+        myModal.show();
+    });
+    $("#btnUpdate").click(updateProfessor);
+    $("#btnDelete").click(deleteProfesor);
+
+
+    /*On Document Load*/
+    $(function() {
+        assignFilterByAlign(); // calling function Alignment od Filter by:
+        initPaginator(); //initPaginator Method that return the total rows in student's table
+    });
+
+    /*------------------ On Scren Resize --------------------*/
+    /*----------------------------------- --------------------*/
+
+    window.addEventListener('resize', () => {
+        assignFilterByAlign(); // calling function on resize
+    });
+
+    function assignFilterByAlign() {
+        if ($(window).width() < 768) {
+            /* checking for bootstrap MD breakpoint */
+            $('#filterBy').removeClass('text-end').addClass('text-start');
+        } else {
+            $('#filterBy').removeClass('text-start').addClass('text-end');
+        }
+    }
 </script>
-
-
-
-
-
-
-
 
 </html>

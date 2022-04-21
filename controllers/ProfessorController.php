@@ -2,7 +2,7 @@
 
 class ProfessorController
 {
-   public function index()
+    public function index()
     {
         session_start();
         if (!$_SESSION['active']) {
@@ -11,37 +11,33 @@ class ProfessorController
         }
         $professors = Professor::all();
         view("listProfessor", $professors);
-
     }
-  public function pagination()
-    {   
-        $start = $_POST['start'];
-        $end = $_POST['end'];
-        $nameP = $_POST['nameP'];
-        $emailP = $_POST['emailP'];
-        $newstart = ($start -1)* $end;
-        $allprofe = Professor::limite('','','','');
-        $allnameP = Professor::allValor($nameP, $emailP);
-        $professor = Professor::limite($nameP,$emailP,$newstart,$end);
-        if($nameP == "%"){
-            $cant = count($allprofe);
+    //PAGINADO
+    public function pagprofessor()
+    {
+        $professor = new Professor();
+        $findByname = $_POST['findByname'];
+        $findBylast = $_POST['findBylast'];
+        $findByemail = $_POST['findByemail'];
+        if ($_POST['param1'] == "count") {
+            $jsondata = $professor->countProfessor($findByname, $findBylast, $findByemail);
+        } elseif ($_POST["param1"] == "dame") {
+            $limit = $_POST['limit'];
+            $offset = $_POST['offset'];
+            $jsondata = $professor->getByRange($findByname, $findBylast, $findByemail, $offset, $limit);
         }
-        else{
-            $cant = count($allnameP);
-        }
-    
-        echo json_encode($professor)."*".$cant;
+        echo json_encode($jsondata);
+        exit();
     }
 
+    public function search()
+    {
 
-    public function search(){
-        
         $professor = new Professor();
         $professor->id = $_POST['id'];
         $results = $professor->find();
         echo json_encode($results);
-
- 
+    }
 
     public function create()
     {
@@ -58,16 +54,15 @@ class ProfessorController
             $professor->lastname = $_POST['lastname'];
             $professor->email = $_POST['email'];
             $professor->password = $_POST['password'];
-            if($id == "" || $id == null){
+            if ($id == "" || $id == null) {
                 $insertedID = $professor->save();
                 $professor->id = $insertedID;
                 $results = $professor;
-            }else{
+            } else {
                 $professor->save();
-                $results = $professor; 
+                $results = $professor;
             }
             echo json_encode($results);
-            
         }
     }
 

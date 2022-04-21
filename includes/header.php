@@ -21,13 +21,10 @@ if ($title != "passwordreset" && $title != "password")
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!-- <title>Dashboard - SB Admin</title> -->
-    <title id="titleID">College</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <link href="http://localhost/college/dist/css/style.online.css" rel="stylesheet" />
     <link href="http://localhost/college/dist/css/styles.css" rel="stylesheet" />
     <script src="http://localhost/college/dist/js/all.js"></script>
@@ -39,3 +36,9 @@ if ($title != "passwordreset" && $title != "password")
     <!-- <script src="http://localhost/college/dist/js/simple-datatables.js"></script> -->
     <script src="http://localhost/college/dist/js/datatables-simple-demo.js"></script>
 </head>
+
+<body>
+
+</body>
+
+</html>
